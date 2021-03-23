@@ -3,6 +3,8 @@ package com.inditex.prueba.prices.controller;
 
 import com.inditex.prueba.prices.model.PriceResponse;
 import com.inditex.prueba.prices.service.PricesService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +15,8 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/prices/{date}/{productId}/{brandId}")
+@RequestMapping("/prices")
+@Api(value = "API services", produces = "application/json")
 public class PricesController {
 
     private final PricesService pricesService;
@@ -23,7 +26,8 @@ public class PricesController {
         this.pricesService = pricesService;
     }
 
-    @GetMapping()
+    @GetMapping("/{date}/{productId}/{brandId}")
+    @ApiOperation(value = "Filter prices by date, producIt and brandId", notes = "get Price Filtered")
     public ResponseEntity<PriceResponse> getPriceFilter(@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
                                                         @PathVariable(value = "date") LocalDateTime date,
                                                        @PathVariable(value = "productId") Integer productId,
